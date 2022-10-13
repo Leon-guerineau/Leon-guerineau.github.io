@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <td colspan="3" class="gameHeader"></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="gameCell y1 x1 c1"> </td>
+                <td class="gameCell y1 x2"> </td>
+                <td class="gameCell y1 x3 c2"> </td>
+            </tr>
+            <tr>
+                <td class="gameCell y2 x1"> </td>
+                <td class="gameCell y2 x2 c1 c2"> </td>
+                <td class="gameCell y2 x3"> </td>
+            </tr>
+            <tr>
+                <td class="gameCell y3 x1 c2"> </td>
+                <td class="gameCell y3 x2"> </td>
+                <td class="gameCell y3 x3 c1"> </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+
+<style>
+    table, thead, td {
+        border: 1px solid;
+    }
+    td {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<script>
+    const player1 = 'o';
+    const player2 = 'x';
+    const axes = ['y1','y2','y3','x1','x2','x3','c1','c2']
+    let currentPlayer = player1;
+    cells = document.querySelectorAll('.gameCell');
+
+    window.addEventListener('load', loadGame)
+    function loadGame() {
+
+        setHeader('Tour du joueur: '+currentPlayer)
+        enableCellsClickEvents()
+    }
+
+    function play()
+    {
+        if (this.innerHTML === ' ') {
+            this.innerHTML = currentPlayer;
+            swapPlayers();
+        }
+    }
+
+    function swapPlayers()
+    {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else if (currentPlayer === player2) {
+            currentPlayer = player1;
+        }
+        setHeader('Tour du joueur: '+currentPlayer)
+    }
+
+    function checkWin()
+    {
+        axes.forEach(function(axis) {
+            let line = document.querySelectorAll('.'+axis)
+            let player1Count = 0;
+            let player2Count = 0;
+
+            line.forEach(function(linePoint) {
+                switch (linePoint.innerHTML) {
+                    case player1:
+                        player1Count++;
+                        break;
+                    case player2:
+                        player2Count++;
+                        break;
+                }
+            })
+            switch (line.length) {
+                case player1Count:
+                    win(player1)
+                    break;
+                case player2Count:
+                    win(player2)
+                    break;
+            }
+        })
+    }
+
+    function checkLose()
+    {
+        // TODO
+    }
+
+    function win(player)
+    {
+        disableCellsClickEvents()
+        setHeader('Le joueur '+player+' à gagner', 'lightgreen', true);
+    }
+
+    function setHeader(message, backgroundColor = 'lightgrey', hasButton = false)
+    {
+        let header = document.querySelector('.gameHeader');
+        header.innerHTML = message;
+        header.style.backgroundColor = backgroundColor;
+        if(hasButton) {
+            let refreshButton = document.createElement('button');
+            refreshButton.innerHTML = 'Rejouer';
+            refreshButton.onclick = loadGame;
+            header.append(refreshButton);
+        }
+    }
+
+    function enableCellsClickEvents()
+    {
+        cells.forEach(function(cell) {
+            cell.innerHTML = ' ';
+            cell.addEventListener('click', play);
+            cell.addEventListener('click', checkWin);
+        });
+    }
+
+    function disableCellsClickEvents()
+    {
+        cells.forEach(function(cell) {
+            cell.removeEventListener('click', play);
+            cell.removeEventListener('click', checkWin);
+        });
+    }
+</script>
