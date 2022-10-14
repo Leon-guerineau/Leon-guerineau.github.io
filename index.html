@@ -47,11 +47,12 @@
     const player2 = 'x';
     const axes = ['y1','y2','y3','x1','x2','x3','c1','c2']
     let currentPlayer = player1;
+    let cellsFilled = 0;
     cells = document.querySelectorAll('.gameCell');
 
     window.addEventListener('load', loadGame)
     function loadGame() {
-
+        cellsFilled = 0;
         setHeader('Tour du joueur: '+currentPlayer)
         enableCellsClickEvents()
     }
@@ -61,6 +62,7 @@
         if (this.innerHTML === ' ') {
             this.innerHTML = currentPlayer;
             swapPlayers();
+            cellsFilled++;
         }
     }
 
@@ -104,13 +106,21 @@
 
     function checkLose()
     {
-        // TODO
+        if(cellsFilled===cells.length) {
+            lose();
+        }
     }
 
     function win(player)
     {
-        disableCellsClickEvents()
+        disableCellsClickEvents();
         setHeader('Le joueur '+player+' à gagner', 'lightgreen', true);
+    }
+
+    function lose()
+    {
+        disableCellsClickEvents();
+        setHeader('Aucun joueur n\'a gagné', 'red', true)
     }
 
     function setHeader(message, backgroundColor = 'lightgrey', hasButton = false)
@@ -132,6 +142,7 @@
             cell.innerHTML = ' ';
             cell.addEventListener('click', play);
             cell.addEventListener('click', checkWin);
+            cell.addEventListener('click', checkLose);
         });
     }
 
@@ -140,6 +151,7 @@
         cells.forEach(function(cell) {
             cell.removeEventListener('click', play);
             cell.removeEventListener('click', checkWin);
+            cell.removeEventListener('click', checkLose);
         });
     }
 </script>
