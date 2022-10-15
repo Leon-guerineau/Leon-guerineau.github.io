@@ -1,40 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <table>
-        <thead>
-            <tr>
-                <td colspan="3" class="gameHeader"></td>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="gameCell y1 x1 c1"> </td>
-                <td class="gameCell y1 x2"> </td>
-                <td class="gameCell y1 x3 c2"> </td>
-            </tr>
-            <tr>
-                <td class="gameCell y2 x1"> </td>
-                <td class="gameCell y2 x2 c1 c2"> </td>
-                <td class="gameCell y2 x3"> </td>
-            </tr>
-            <tr>
-                <td class="gameCell y3 x1 c2"> </td>
-                <td class="gameCell y3 x2"> </td>
-                <td class="gameCell y3 x3 c1"> </td>
-            </tr>
-        </tbody>
-    </table>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+    </head>
+    <body>
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="3" class="gameHeader"></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="gameCell y1 x1 c1"> </td>
+                    <td class="gameCell y1 x2"> </td>
+                    <td class="gameCell y1 x3 c2"> </td>
+                </tr>
+                <tr>
+                    <td class="gameCell y2 x1"> </td>
+                    <td class="gameCell y2 x2 c1 c2"> </td>
+                    <td class="gameCell y2 x3"> </td>
+                </tr>
+                <tr>
+                    <td class="gameCell y3 x1 c2"> </td>
+                    <td class="gameCell y3 x2"> </td>
+                    <td class="gameCell y3 x3 c1"> </td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
 </html>
 
 <style>
     table, thead, td {
         border: 1px solid;
+        user-select: none;
     }
     td {
         width: 50px;
