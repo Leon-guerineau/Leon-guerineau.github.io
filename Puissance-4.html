@@ -1,0 +1,64 @@
+<div id="puissance-4">
+
+</div>
+
+<style>
+    table, thead, td {
+        border: 1px solid;
+        user-select: none;
+    }
+    td {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+
+<script>
+    const numberOfRows = 6;
+    const numberOfColumns = 7;
+    const player1 = 'yellow';
+    const player2 = 'red';
+    const piecesToAlign = 4;
+    let currentPlayer = player1;
+
+    const gameBody = document.getElementById('puissance-4')
+
+    //création de la grille
+    let table = document.createElement('table');
+    for(let row = 0; row<numberOfRows; row++) {
+        let tableRow = table.insertRow();
+        for(let column = 0; column<numberOfColumns; column++) {
+            let tableCell = tableRow.insertCell();
+            tableCell.className = 'col-'+column;
+            tableCell.addEventListener('click',play)
+            //tableCell.innerHTML = column - row;
+        }
+    }
+    gameBody.appendChild(table);
+    let tableRows = table.rows;
+
+    function play(){
+        let cellColumn = this.className
+        let cellRow = this.parentNode.rowIndex;
+
+        let cells = table.getElementsByClassName(cellColumn)
+
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].innerHTML
+            if (cells[i+1] == null || cells[i+1].innerHTML !== '') {
+                cells[i].innerHTML = currentPlayer;
+                swapPlayers();
+            }
+        }
+    }
+    function swapPlayers()
+    {
+        if (currentPlayer === player1) {
+            currentPlayer = player2;
+        } else if (currentPlayer === player2) {
+            currentPlayer = player1;
+        }
+    }
+
+
+</script>
