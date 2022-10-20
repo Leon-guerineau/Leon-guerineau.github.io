@@ -51,13 +51,19 @@
     let cellsFilled = 0;
     cells = document.querySelectorAll('.gameCell');
 
+    /**
+     * Affecte au chargement de la page la fonction qui recharge le jeu
+     */
     window.addEventListener('load', loadGame)
     function loadGame() {
         cellsFilled = 0;
-        setHeader('Tour du joueur: '+currentPlayer)
-        enableCellsClickEvents()
+        setHeader('Tour du joueur: '+currentPlayer);
+        enableCellsClickEvents();
     }
 
+    /**
+     * Fonction qui fait le move du joueur et swap les joueurs
+     */
     function play()
     {
         if (this.innerHTML === ' ') {
