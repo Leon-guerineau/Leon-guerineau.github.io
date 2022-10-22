@@ -14,6 +14,7 @@
 </style>
 
 <script>
+
     const numberOfRows = 6;
     const numberOfColumns = 7;
     const player1 = 'yellow';
@@ -23,18 +24,48 @@
 
     const gameBody = document.getElementById('puissance-4')
 
-    //création de la grille
-    let table = document.createElement('table');
-    for(let row = 0; row<numberOfRows; row++) {
-        let tableRow = table.insertRow();
-        tableRow.className = 'row-'+row;
-        for(let column = 0; column<numberOfColumns; column++) {
-            let tableCell = tableRow.insertCell();
-            tableCell.className = 'col-'+column;
-            tableCell.addEventListener('click',play)
-            //tableCell.innerHTML = column - row;
+    class Game {
+        constructor(numberOfRows, numberOfColumns, piecesToAlign) {
+            this.numberOfRows = numberOfRows;
+            this.numberOfColumns = numberOfColumns;
+            this.piecesToAlign = piecesToAlign;
+
+            let table = document.createElement('table');
+            for(let row = 0; row<numberOfRows; row++) {
+                let tableRow = table.insertRow();
+                tableRow.className = 'row-'+row;
+                for(let column = 0; column<numberOfColumns; column++) {
+                    let tableCell = tableRow.insertCell();
+                    tableCell.className = 'col-'+column;
+                    tableCell.addEventListener('click',play)
+                    //tableCell.innerHTML = column - row;
+                }
+            }
+            gameBody.appendChild(table);
+        }
+        generateTable() {
+
+        }
+
+    }
+    class Player {
+        constructor(name, color) {
+            this.name = name;
+            this.color = color;
+        }
+
+    }
+    class Tile {
+        constructor(row, column) {
+            this.row = row;
+            this.column = column;
         }
     }
+
+    new Game(6,7,4)
+
+    //création de la grille
+
     gameBody.appendChild(table);
     let tableRows = table.rows;
 
@@ -45,7 +76,6 @@
         let cells = table.getElementsByClassName(cellColumn)
 
         for (let i = 0; i < cells.length; i++) {
-            console.log(cells[i].)
             if (cells[i+1] === undefined || cells[i+1].innerHTML !== '') {
                 console.log('oui')
                 cells[i].innerHTML = currentPlayer;
