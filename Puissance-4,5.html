@@ -15,6 +15,7 @@
 
 <script>
 
+    /*
     const numberOfRows = 6;
     const numberOfColumns = 7;
     const player1 = 'yellow';
@@ -23,28 +24,70 @@
     let currentPlayer = player1;
 
     const gameBody = document.getElementById('puissance-4')
+*/
 
-    class Game {
+    let random
+    {
+        increment = 0
+        generateRandomId= function () {
+            return new Date().getTime()+'-'+increment++;
+        }
+    }
+
+    class Game
+    {
+        players = []
+        currentPlayer = null;
+
         constructor(numberOfRows, numberOfColumns, piecesToAlign) {
             this.numberOfRows = numberOfRows;
             this.numberOfColumns = numberOfColumns;
             this.piecesToAlign = piecesToAlign;
+            this.id = generateRandomId();
 
+            this.generateTable()
+        }
+
+        addPlayers(player) {
+            this.players.push(player)
+            // Set le joueur actuel si il n'y en as pas le premier joueur instcrit sera donc le premier à jouer
+            !this.currentPlayer ? this.setCurrentPlayer(player) : null;
+        }
+        removePlayer(player) {
+            const playerIndex = this.players.indexOf(player)
+            this.players.splice(playerIndex)
+        }
+
+        setCurrentPlayer(player) {
+            this.currentPlayer = player
+        }
+
+        generateTable() {
+            // génération de la table et attribution de son id html
             let table = document.createElement('table');
-            for(let row = 0; row<numberOfRows; row++) {
-                let tableRow = table.insertRow();
-                tableRow.className = 'row-'+row;
-                for(let column = 0; column<numberOfColumns; column++) {
-                    let tableCell = tableRow.insertCell();
-                    tableCell.className = 'col-'+column;
-                    tableCell.addEventListener('click',play)
+            table.id = 'table-'+this.id;
+
+            // génération du header de la table et attribution de son id html
+            let tableHeader = table.createTHead().insertRow().insertCell()
+            tableHeader.id = 'table-header-'+this.id;
+            tableHeader.colSpan = this.numberOfColumns
+
+
+            let tableBody = table.createTBody()
+            for(let row = 0; row<this.numberOfRows; row++) {
+                let tableRow = tableBody.insertRow();
+                for(let column = 0; column<this.numberOfColumns; column++) {
+                    tableRow.insertCell();
+                    new Tile(row, column)
+
+                    //tableCell.addEventListener('click',play)
                     //tableCell.innerHTML = column - row;
                 }
             }
-            gameBody.appendChild(table);
+            document.getElementById('puissance-4').appendChild(table);
         }
-        generateTable() {
-
+        settableheader() {
+            document.getElementsByTagName('thead tr td')
         }
 
     }
@@ -56,14 +99,22 @@
 
     }
     class Tile {
+        player = 5;
         constructor(row, column) {
             this.row = row;
             this.column = column;
         }
+
     }
+    const game = new Game(6,7,4)
+    game.addPlayers(new Player('player1', 'yellow'))
+    game.addPlayers(new Player('player2', 'red'))
 
-    new Game(6,7,4)
+    // console.log(game.players)
+    console.log(game.currentPlayer)
 
+
+    /*
     //création de la grille
 
     gameBody.appendChild(table);
@@ -93,6 +144,6 @@
             currentPlayer = player1;
         }
     }
-
+*/
 
 </script>
