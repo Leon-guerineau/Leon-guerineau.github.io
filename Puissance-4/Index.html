@@ -1,6 +1,4 @@
-<div id="puissance-4">
-
-</div>
+<div id="puissance-4"></div>
 
 <style>
     table, thead, td {
@@ -29,7 +27,7 @@
     let random
     {
         increment = 0
-        generateRandomId= function () {
+        generateRandomId = function () {
             return new Date().getTime()+'-'+increment++;
         }
     }
@@ -44,8 +42,9 @@
             this.numberOfColumns = numberOfColumns;
             this.piecesToAlign = piecesToAlign;
             this.id = generateRandomId();
-
-            this.generateTable()
+            this.HTMLTable = this.generateTable()
+            this.HTMLHeader = this.generateHeader()
+            this.modifyTableHeader('sdssdf')
         }
 
         addPlayers(player) {
@@ -53,6 +52,7 @@
             // Set le joueur actuel si il n'y en as pas le premier joueur instcrit sera donc le premier à jouer
             !this.currentPlayer ? this.setCurrentPlayer(player) : null;
         }
+
         removePlayer(player) {
             const playerIndex = this.players.indexOf(player)
             this.players.splice(playerIndex)
@@ -63,31 +63,40 @@
         }
 
         generateTable() {
-            // génération de la table et attribution de son id html
+            // génération de la table
             let table = document.createElement('table');
-            table.id = 'table-'+this.id;
-
-            // génération du header de la table et attribution de son id html
-            let tableHeader = table.createTHead().insertRow().insertCell()
-            tableHeader.id = 'table-header-'+this.id;
-            tableHeader.colSpan = this.numberOfColumns
-
+            document.getElementById('puissance-4').appendChild(table);
 
             let tableBody = table.createTBody()
             for(let row = 0; row<this.numberOfRows; row++) {
                 let tableRow = tableBody.insertRow();
                 for(let column = 0; column<this.numberOfColumns; column++) {
-                    tableRow.insertCell();
-                    new Tile(row, column)
+                    new Tile(row, column, tableRow.insertCell());
 
                     //tableCell.addEventListener('click',play)
                     //tableCell.innerHTML = column - row;
                 }
             }
-            document.getElementById('puissance-4').appendChild(table);
+            return table
         }
-        settableheader() {
-            document.getElementsByTagName('thead tr td')
+        generateHeader() {
+            // Génération du header de la table
+            let tableHeader = this.HTMLTable.createTHead().insertRow().insertCell()
+            // colspan représente la largeur de la cellule en nombre de colones
+            tableHeader.colSpan = this.numberOfColumns
+
+            return tableHeader;
+        }
+
+        /**
+         * Modifie le header du tableau
+         * @param {string}message
+         * @param {string}backgroundColor
+         * @param {boolean}hasButton
+         */
+        modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false) {
+            this.HTMLHeader.innerHTML = message
+            this.HTMLHeader.style.backgroundColor = backgroundColor
         }
 
     }
@@ -100,9 +109,10 @@
     }
     class Tile {
         player = 5;
-        constructor(row, column) {
+        constructor(row, column, HTMLCell) {
             this.row = row;
             this.column = column;
+            this.HTMLCell = HTMLCell;
         }
 
     }
