@@ -13,17 +13,6 @@
 
 <script>
 
-    /*
-    const numberOfRows = 6;
-    const numberOfColumns = 7;
-    const player1 = 'yellow';
-    const player2 = 'red';
-    const piecesToAlign = 4;
-    let currentPlayer = player1;
-
-    const gameBody = document.getElementById('puissance-4')
-*/
-
     let random
     {
         increment = 0
@@ -44,7 +33,7 @@
             this.id = generateRandomId();
             this.HTMLTable = this.generateTable()
             this.HTMLHeader = this.generateHeader()
-            this.modifyTableHeader('sdssdf')
+            this.cells = this.generateCells()
         }
 
         addPlayers(player) {
@@ -60,23 +49,17 @@
 
         setCurrentPlayer(player) {
             this.currentPlayer = player
+            this.modifyTableHeader(this.currentPlayer.name)
+        }
+
+        swapPlayers() {
+            this.currentPlayer = this.players[(this.players.indexOf(this.currentPlayer)??0) +1] ?? this.players[0]
         }
 
         generateTable() {
             // génération de la table
             let table = document.createElement('table');
             document.getElementById('puissance-4').appendChild(table);
-
-            let tableBody = table.createTBody()
-            for(let row = 0; row<this.numberOfRows; row++) {
-                let tableRow = tableBody.insertRow();
-                for(let column = 0; column<this.numberOfColumns; column++) {
-                    new Tile(row, column, tableRow.insertCell());
-
-                    //tableCell.addEventListener('click',play)
-                    //tableCell.innerHTML = column - row;
-                }
-            }
             return table
         }
         generateHeader() {
@@ -86,6 +69,31 @@
             tableHeader.colSpan = this.numberOfColumns
 
             return tableHeader;
+        }
+        generateCells() {
+            let cells = []
+            let tableBody = this.HTMLTable.createTBody()
+            for(let row = 0; row<this.numberOfRows; row++) {
+                let tableRow = tableBody.insertRow();
+                for(let column = 0; column<this.numberOfColumns; column++) {
+                    let cell = new Cell(row, column, tableRow.insertCell())
+                    cells.push(cell)
+
+                    cell.HTMLCell.addEventListener('click', () => {
+                        let validCellsInColumn = this.cells.filter(obj => {
+                            return obj.column === cell.column && obj.valid === true
+                        })
+                        if (validCellsInColumn.length === 0) {
+                            return
+                        }
+                        let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
+                        lowestCellInColumn.change(this.currentPlayer)
+                        // changement de joueur
+                        this.swapPlayers()
+                    })
+                }
+            }
+            return cells
         }
 
         /**
@@ -98,8 +106,8 @@
             this.HTMLHeader.innerHTML = message
             this.HTMLHeader.style.backgroundColor = backgroundColor
         }
-
     }
+
     class Player {
         constructor(name, color) {
             this.name = name;
@@ -107,53 +115,47 @@
         }
 
     }
-    class Tile {
-        player = 5;
+
+    class Cell {
         constructor(row, column, HTMLCell) {
-            this.row = row;
-            this.column = column;
-            this.HTMLCell = HTMLCell;
+            this.row = row;             // Position dans la colone (y)
+            this.column = column;       // Position dans la ligne (x)
+            this.HTMLCell = HTMLCell;   // Élément HTML relié à l'objet
+            this.player = null;         // Joueur attribué à la case
+            this.valid = true;          // Détermine si la case est valide pour poser un pion
         }
 
+        /**
+         * Attribu la case
+         *
+         * @param {Player}player
+         */
+        change(player) {
+            this.player = player
+            this.HTMLCell.appendChild(this.generatePiece(player.color))
+            this.valid = false
+        }
+
+        /**
+         * Genère un pion
+         *
+         * @param {string}color Couleur du pion
+         *
+         * @returns {HTMLDivElement} Une div HTML
+         */
+        generatePiece(color) {
+            console.log(color)
+            let piece = document.createElement('div')
+            piece.style.height = '100%'
+            piece.style.width = '100%'
+            piece.style.borderRadius = '50%'
+            piece.style.backgroundColor = color
+            piece.style.display = 'inline-block'
+            return piece
+        }
     }
+
     const game = new Game(6,7,4)
     game.addPlayers(new Player('player1', 'yellow'))
     game.addPlayers(new Player('player2', 'red'))
-
-    // console.log(game.players)
-    console.log(game.currentPlayer)
-
-
-    /*
-    //création de la grille
-
-    gameBody.appendChild(table);
-    let tableRows = table.rows;
-
-    function play(){
-        let cellColumn = this.className
-        let cellRow = this.parentNode.rowIndex;
-
-        let cells = table.getElementsByClassName(cellColumn)
-
-        for (let i = 0; i < cells.length; i++) {
-            if (cells[i+1] === undefined || cells[i+1].innerHTML !== '') {
-                console.log('oui')
-                cells[i].innerHTML = currentPlayer;
-            } else {
-                console.log('non')
-            }
-        }
-        swapPlayers()
-    }
-    function swapPlayers()
-    {
-        if (currentPlayer === player1) {
-            currentPlayer = player2;
-        } else if (currentPlayer === player2) {
-            currentPlayer = player1;
-        }
-    }
-*/
-
 </script>
