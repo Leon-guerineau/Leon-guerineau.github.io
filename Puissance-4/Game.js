@@ -12,10 +12,18 @@ class Game
         this.cells = this.generateCells()
     }
 
-    addPlayers(player) {
-        this.players.push(player)
+    destructor() {
+       delete this.cells
+    }
+
+    /**
+     *
+     * @param {array}players
+     */
+    addPlayers(players) {
+        this.players = players
         // Set le joueur actuel si il n'y en as pas le premier joueur instcrit sera donc le premier à jouer
-        !this.currentPlayer ? this.setCurrentPlayer(player) : null;
+        !this.currentPlayer ? this.setCurrentPlayer(this.players[0]) : null;
     }
 
     removePlayer(player) {
@@ -70,6 +78,9 @@ class Game
                     // changement de joueur
                     this.swapPlayers()
                     this.checkWinHorizontal()
+                    this.checkWinVertical()
+                    this.checkWinDiagonalDown()
+                    //this.checkWinDiagonalUp()
                 })
             }
         }
@@ -92,23 +103,66 @@ class Game
             let cellsInRow = this.cells.filter(cell => {
                 return cell.row === row
             })
-            let counter = 1
-            let elem = null;
-            cellsInRow.forEach((cell) => {
-                // cell.player ? console.log(cell.player) : null
-                if (cell.player instanceof Player) {
-                    if (cell.player === elem) {
-                        counter++
-                    } else {
-                        counter = 1;
-                    }
-                    if(counter === this.piecesToAlign) {
-                        this.win(cell.player)
-                    }
-                }
-                elem = cell.player
-            })
+            this.checkListForWin(cellsInRow)
         }
+    }
+
+    checkWinVertical() {
+        for(let column = 0; column<this.numberOfColumns; column++){
+            let cellsinColumn = this.cells.filter(cell => {
+                return cell.column === column
+            })
+            this.checkListForWin(cellsinColumn)
+        }
+    }
+
+    checkWinDiagonalDown() {
+        let i = 0
+        for(let diagonal = -this.numberOfColumns; diagonal<this.numberOfRows; diagonal++){
+            let cellsinDiagonal = []
+            for(let column = 0; column<this.numberOfColumns; column++) {
+                let cell = this.cells.find( cell => {
+                    return cell.row === diagonal+column && cell.column === column
+                })
+                cell? cell.HTMLCell.style.backgroundColor = 'rgb('+i+','+i+','+i+')' : null
+                i++
+                cell ? cellsinDiagonal.push(cell) : null
+
+            }
+            this.checkListForWin(cellsinDiagonal)
+        }
+    }
+
+    checkWinDiagonalUp() {
+        for(let diagonal = -this.numberOfColumns; diagonal<this.numberOfRows; diagonal++){
+            let cellsinDiagonal = []
+            for(let column = 0; column<this.numberOfColumns; column++) {
+                let cell = this.cells.find( cell => {
+                    return cell.row === diagonal+column && cell.column === column
+                })
+
+                cell ? cellsinDiagonal.push(cell) : null
+            }
+            this.checkListForWin(cellsinDiagonal)
+        }
+    }
+
+    checkListForWin(cells) {
+        let counter = 1
+        let elem = null;
+        cells.forEach((cell) => {
+            if (cell.player instanceof Player) {
+                if (cell.player === elem) {
+                    counter++
+                } else {
+                    counter = 1;
+                }
+                if(counter === this.piecesToAlign) {
+                    this.win(cell.player)
+                }
+            }
+            elem = cell.player
+        })
     }
 
     win(player) {
