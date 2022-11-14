@@ -47,7 +47,7 @@ class Game
     /**
      * Génère la table HTML
      *
-     * @returns {HTMLTableElement}
+     * @returns {HTMLTableElement} L'élément HTML de la table
      */
     generateTable()
     {
@@ -62,7 +62,7 @@ class Game
     /**
      * Génère le header de la table HTML
      *
-     * @returns {HTMLTableElement}
+     * @returns {HTMLTableElement} L'élément HTML du header
      */
     generateHeader()
     {
@@ -77,9 +77,10 @@ class Game
     /**
      * Génère les cellules
      *
-     * @returns {HTMLTableElement[]}
+     * @returns {Cell[]} La liste des cellules
      */
-    generateCells() {
+    generateCells()
+    {
         // génération du corps de la table
         let tableBody = this.HTMLTable.createTBody()
         //génération des colones et des cellules
@@ -89,28 +90,11 @@ class Game
             for(let column = 0; column<this.numberOfColumns; column++) {
                 // génération de la cellule
                 let tableCell = tableRow.insertCell()
-                let cell = new Cell(row, column, tableCell)
                 tableCell.addEventListener('click', () => {
-                    //recherche les cases valides dans la column
-                    let validCellsInColumn = this.cells.filter(obj => {
-                        return obj.column === cell.column && obj.valid === true;
-                    })
-                    // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
-                    if (validCellsInColumn.length <= 0 || this.won) {
-                        return;
-                    }
-
-                    let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
-                    lowestCellInColumn.change(this.currentPlayer)
-                    // changement de joueur
-                    this.swapPlayers()
-                    this.checkWinHorizontal()
-                    this.checkWinVertical()
-                    this.checkWinDiagonalDown()
-                    this.checkWinDiagonalUp()
+                    this.play(column)
                 })
-
-                cells.push(cell)
+                // Attribution d'un nouvel objet Cellule dans la liste des cellules
+                cells.push(new Cell(row, column, tableCell))
             }
         }
 
@@ -118,14 +102,45 @@ class Game
     }
 
     /**
-     * Modifie le header du tableau
-     * @param {string}message
-     * @param {string}backgroundColor
-     * @param {boolean}hasButton
+     * Pose le pion dans la colone sélectionnée et vérifie si la partie est gagnée
+     *
+     * @param column La colone jouée
      */
-    modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false) {
+    play(column)
+    {
+        //recherche les cases valides dans la column
+        let validCellsInColumn = this.cells.filter(obj => {
+            return obj.column === column && obj.valid === true;
+        })
+        // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
+        if (validCellsInColumn.length <= 0 || this.won) {
+            return;
+        }
+        // trouve la cellule la plus basse et lui attribu le joueur actuel
+        let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
+        lowestCellInColumn.change(this.currentPlayer)
+        // changement de joueur
+        this.swapPlayers()
+        // vérifie si la partie est gagnée
+        this.checkWinHorizontal()
+        this.checkWinVertical()
+        this.checkWinDiagonalDown()
+        this.checkWinDiagonalUp()
+    }
+
+    /**
+     * Modifie le header du tableau
+     *
+     * @param {string}message Le message à afficher
+     * @param {string}backgroundColor La couleur du fond
+     * @param {boolean}hasButton Est-ce qu'on affiche le boutton pour redémarrer la partie
+     */
+    modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false)
+    {
+        // modification du message et du fond du header
         this.HTMLHeader.innerHTML = message
         this.HTMLHeader.style.backgroundColor = backgroundColor
+        // affichage du boutton reset si demandé
         if (hasButton) {
             let restartButton = document.createElement('button')
             restartButton.innerHTML = 'Nouvelle partie'
@@ -136,11 +151,16 @@ class Game
         }
     }
 
+    /**
+     * Vérifie pour chaque ligne si un joueur à gagner
+     */
     checkWinHorizontal() {
         for(let row = 0; row<this.numberOfRows; row++){
+            // filtre les cellules pour garder celles apartenant à une ligne précise
             let cellsInRow = this.cells.filter(cell => {
                 return cell.row === row
             })
+            // vérifie si un joueur à gagner
             this.checkListForWin(cellsInRow)
         }
     }
@@ -182,6 +202,11 @@ class Game
         }
     }
 
+    /**
+     * prends une chaine de pions et regarde si un nombre suffisant de pions sont alignés pour qu'un joueur gagne
+     *
+     * @param cells
+     */
     checkListForWin(cells) {
         let counter = 1
         let elem = null;
