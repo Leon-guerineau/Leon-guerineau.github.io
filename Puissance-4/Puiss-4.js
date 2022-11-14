@@ -1,4 +1,4 @@
-class Game
+class Puiss4
 {
     constructor(numberOfRows, numberOfColumns, piecesToAlign, players=[])
     {

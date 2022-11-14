@@ -20,14 +20,4 @@ class Cell {
         // Rends la case invalide
         this.valid = false
     }
-
-    /**
-     * Dis si la case est occupée ou pas
-     *
-     * @returns {boolean}
-     */
-    hasPlayer() {
-        // 'instanceof' permet de savoir si la propriété player est de la Class Player
-        return(this.player instanceof Player)
-    }
 }
