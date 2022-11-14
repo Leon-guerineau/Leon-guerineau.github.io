@@ -30,8 +30,4 @@ class Cell {
         // 'instanceof' permet de savoir si la propriété player est de la Class Player
         return(this.player instanceof Player)
     }
-
-    removeEventListeners() {
-        this.HTMLCell = this.HTMLCell.cloneNode(true);
-    }
 }

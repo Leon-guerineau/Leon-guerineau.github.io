@@ -7,53 +7,66 @@ class Game
         this.piecesToAlign = piecesToAlign;
         this.players = players;
 
-        this.currentPlayer = players[0];
+        this.currentPlayer = this.players.find(()=>true);
         this.HTMLTable = this.generateTable();
         this.HTMLHeader = this.generateHeader();
         this.cells = this.generateCells();
+        this.won = false;
 
-        this.modifyTableHeader(this.currentPlayer.name)
+        this.modifyTableHeader(this.currentPlayer.name+' commence');
     }
 
     destruct()
     {
-        document.getElementById('puissance-4').removeChild(this.HTMLTable)
+        document.getElementById('puissance-4').removeChild(this.HTMLTable);
         for (const key in this) {
             delete this[key];
         }
     }
 
     /**
-     * @param {array}players
+     * Change le joueur du prochain tour
      */
-    addPlayers(players) {
-        this.players = players
-        // Set le joueur actuel si il n'y en as pas le premier joueur instcrit sera donc le premier à jouer
-        if (!this.currentPlayer) {
-            this.currentPlayer = players[0];
-            this.modifyTableHeader(this.currentPlayer.name)
+    swapPlayers()
+    {
+        // on prends l'index du joueur dans la liste des joueurs
+        let currentPlayerIndex = this.players.indexOf(this.currentPlayer);
+        // si il y a un joueur suivant dans la liste des joueurs alors on l'attribu
+        if (this.players[currentPlayerIndex+1]) {
+            this.currentPlayer = this.players[currentPlayerIndex+1]
         }
+        // sinon on prends le premier de la liste
+        else {
+            // find permets de trouver le premier element sans présumer que son index est 0
+            this.currentPlayer = this.players.find(()=>true)
+        }
+        // Modification du header
+        this.modifyTableHeader('Au tour de : '+this.currentPlayer.name)
     }
 
-    setCurrentPlayer(player) {
-        this.currentPlayer = player
-        this.modifyTableHeader(this.currentPlayer.name)
-    }
-
-    swapPlayers() {
-        this.currentPlayer = this.players[(this.players.indexOf(this.currentPlayer)??0) +1] ?? this.players[0]
-        this.modifyTableHeader(this.currentPlayer.name)
-    }
-
-    generateTable() {
+    /**
+     * Génère la table HTML
+     *
+     * @returns {HTMLTableElement}
+     */
+    generateTable()
+    {
         // génération de la table
         let table = document.createElement('table');
+        // attribution de la table à la div du jeu sur la page principale
         document.getElementById('puissance-4').appendChild(table);
+
         return table
     }
 
-    generateHeader() {
-        // Génération du header de la table
+    /**
+     * Génère le header de la table HTML
+     *
+     * @returns {HTMLTableElement}
+     */
+    generateHeader()
+    {
+        // génération du header de la table
         let tableHeader = this.HTMLTable.createTHead().insertRow().insertCell()
         // colspan représente la largeur de la cellule en nombre de colones
         tableHeader.colSpan = this.numberOfColumns
@@ -61,22 +74,32 @@ class Game
         return tableHeader;
     }
 
+    /**
+     * Génère les cellules
+     *
+     * @returns {HTMLTableElement[]}
+     */
     generateCells() {
-        let cells = []
+        // génération du corps de la table
         let tableBody = this.HTMLTable.createTBody()
+        //génération des colones et des cellules
+        let cells = []
         for(let row = 0; row<this.numberOfRows; row++) {
-            let tableRow = tableBody.insertRow();
+            let tableRow = tableBody.insertRow()
             for(let column = 0; column<this.numberOfColumns; column++) {
-                let cell = new Cell(row, column, tableRow.insertCell())
-                cells.push(cell)
-
-                cell.HTMLCell.addEventListener('click', () => {
+                // génération de la cellule
+                let tableCell = tableRow.insertCell()
+                let cell = new Cell(row, column, tableCell)
+                tableCell.addEventListener('click', () => {
+                    //recherche les cases valides dans la column
                     let validCellsInColumn = this.cells.filter(obj => {
-                        return obj.column === cell.column && obj.valid === true
+                        return obj.column === cell.column && obj.valid === true;
                     })
-                    if (validCellsInColumn.length === 0) {
-                        return
+                    // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
+                    if (validCellsInColumn.length <= 0 || this.won) {
+                        return;
                     }
+
                     let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
                     lowestCellInColumn.change(this.currentPlayer)
                     // changement de joueur
@@ -86,8 +109,11 @@ class Game
                     this.checkWinDiagonalDown()
                     this.checkWinDiagonalUp()
                 })
+
+                cells.push(cell)
             }
         }
+
         return cells
     }
 
@@ -181,9 +207,7 @@ class Game
     }
 
     win(player) {
+        this.won = true;
         this.modifyTableHeader(player.name+' won', 'green', true)
-        this.cells.forEach((cell) => {
-            cell.removeEventListeners()
-        })
     }
 }
