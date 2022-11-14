@@ -1,34 +1,38 @@
 class Game
 {
-    players = []
-    currentPlayer = null;
-
-    constructor(numberOfRows, numberOfColumns, piecesToAlign) {
+    constructor(numberOfRows, numberOfColumns, piecesToAlign, players=[])
+    {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         this.piecesToAlign = piecesToAlign;
-        this.HTMLTable = this.generateTable()
-        this.HTMLHeader = this.generateHeader()
-        this.cells = this.generateCells()
+        this.players = players;
+
+        this.currentPlayer = players[0];
+        this.HTMLTable = this.generateTable();
+        this.HTMLHeader = this.generateHeader();
+        this.cells = this.generateCells();
+
+        this.modifyTableHeader(this.currentPlayer.name)
     }
 
-    destructor() {
-       delete this.cells
+    destruct()
+    {
+        document.getElementById('puissance-4').removeChild(this.HTMLTable)
+        for (const key in this) {
+            delete this[key];
+        }
     }
 
     /**
-     *
      * @param {array}players
      */
     addPlayers(players) {
         this.players = players
         // Set le joueur actuel si il n'y en as pas le premier joueur instcrit sera donc le premier à jouer
-        !this.currentPlayer ? this.setCurrentPlayer(this.players[0]) : null;
-    }
-
-    removePlayer(player) {
-        const playerIndex = this.players.indexOf(player)
-        this.players.splice(playerIndex)
+        if (!this.currentPlayer) {
+            this.currentPlayer = players[0];
+            this.modifyTableHeader(this.currentPlayer.name)
+        }
     }
 
     setCurrentPlayer(player) {
@@ -80,7 +84,7 @@ class Game
                     this.checkWinHorizontal()
                     this.checkWinVertical()
                     this.checkWinDiagonalDown()
-                    //this.checkWinDiagonalUp()
+                    this.checkWinDiagonalUp()
                 })
             }
         }
@@ -96,6 +100,14 @@ class Game
     modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false) {
         this.HTMLHeader.innerHTML = message
         this.HTMLHeader.style.backgroundColor = backgroundColor
+        if (hasButton) {
+            let restartButton = document.createElement('button')
+            restartButton.innerHTML = 'Nouvelle partie'
+            restartButton.addEventListener('click', () => {
+                restartGame(this)
+            })
+            this.HTMLHeader.appendChild(restartButton)
+        }
     }
 
     checkWinHorizontal() {
@@ -117,15 +129,12 @@ class Game
     }
 
     checkWinDiagonalDown() {
-        let i = 0
         for(let diagonal = -this.numberOfColumns; diagonal<this.numberOfRows; diagonal++){
             let cellsinDiagonal = []
             for(let column = 0; column<this.numberOfColumns; column++) {
                 let cell = this.cells.find( cell => {
                     return cell.row === diagonal+column && cell.column === column
                 })
-                cell? cell.HTMLCell.style.backgroundColor = 'rgb('+i+','+i+','+i+')' : null
-                i++
                 cell ? cellsinDiagonal.push(cell) : null
 
             }
@@ -134,14 +143,14 @@ class Game
     }
 
     checkWinDiagonalUp() {
-        for(let diagonal = -this.numberOfColumns; diagonal<this.numberOfRows; diagonal++){
+        for(let diagonal = -this.numberOfColumns; diagonal<2*this.numberOfRows; diagonal++){
             let cellsinDiagonal = []
-            for(let column = 0; column<this.numberOfColumns; column++) {
+            for(let column = this.numberOfColumns; column>=0; column--) {
                 let cell = this.cells.find( cell => {
-                    return cell.row === diagonal+column && cell.column === column
+                    return cell.row === diagonal-column && cell.column === column
                 })
-
                 cell ? cellsinDiagonal.push(cell) : null
+
             }
             this.checkListForWin(cellsinDiagonal)
         }
@@ -150,14 +159,20 @@ class Game
     checkListForWin(cells) {
         let counter = 1
         let elem = null;
+        let winCells = []
         cells.forEach((cell) => {
             if (cell.player instanceof Player) {
                 if (cell.player === elem) {
                     counter++
+                    winCells.push(cell)
                 } else {
                     counter = 1;
+                    winCells = [cell]
                 }
                 if(counter === this.piecesToAlign) {
+                    winCells.forEach((cell) => {
+                        cell.HTMLCell.style.backgroundColor = 'lightgreen'
+                    })
                     this.win(cell.player)
                 }
             }
@@ -166,7 +181,7 @@ class Game
     }
 
     win(player) {
-        this.modifyTableHeader(player.name+' won', 'green')
+        this.modifyTableHeader(player.name+' won', 'green', true)
         this.cells.forEach((cell) => {
             cell.removeEventListeners()
         })
