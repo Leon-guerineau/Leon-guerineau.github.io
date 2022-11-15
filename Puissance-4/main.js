@@ -12,4 +12,5 @@ const player2 = new Player('joueur-2', 'red')
 
 new Puiss4(6,7,4, [player1,player2])
 // const game3 = new Puiss4(10,12,4, [player1,player2,player3])
+new Morpion([player1,player2])
 

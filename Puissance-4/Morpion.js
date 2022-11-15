@@ -1,9 +1,8 @@
 class Morpion {
-    constructor(numberOfRows, numberOfColumns, piecesToAlign, players=[])
+    constructor(players=[], numberOfRows=3, numberOfColumns=3)
     {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
-        this.piecesToAlign = piecesToAlign;
         this.players = players;
 
         this.currentPlayer = this.players.find(()=>true);
@@ -53,7 +52,7 @@ class Morpion {
         // génération de la table
         let table = document.createElement('table');
         // attribution de la table à la div du jeu sur la page principale
-        document.getElementById('puissance-4').appendChild(table);
+        document.getElementById('morpion').appendChild(table);
 
         return table
     }
@@ -88,12 +87,12 @@ class Morpion {
             let tableRow = tableBody.insertRow()
             for(let column = 0; column<this.numberOfColumns; column++) {
                 // génération de la cellule
-                let tableCell = tableRow.insertCell()
-                tableCell.addEventListener('click', () => {
-                    this.play(column)
-                })
+                let cell = new Cell(row, column, tableRow.insertCell())
                 // Attribution d'un nouvel objet Cellule dans la liste des cellules
-                cells.push(new Cell(row, column, tableCell))
+                cells.push(cell)
+                cell.HTMLCell.addEventListener('click', () => {
+                    this.play(cell)
+                })
             }
         }
 
@@ -101,23 +100,17 @@ class Morpion {
     }
 
     /**
-     * Pose le pion dans la colone sélectionnée et vérifie si la partie est gagnée
+     * Pose le pion dans la cellule sélectionnée et vérifie si la partie est gagnée
      *
-     * @param column La colone jouée
+     * @param {Cell}cell
      */
-    play(column)
+    play(cell)
     {
-        //recherche les cases valides dans la column
-        let validCellsInColumn = this.cells.filter(obj => {
-            return obj.column === column && obj.valid === true;
-        })
         // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
-        if (validCellsInColumn.length <= 0 || this.won) {
+        if (cell.valid === false || this.won) {
             return;
         }
-        // trouve la cellule la plus basse et lui attribu le joueur actuel
-        let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
-        lowestCellInColumn.change(this.currentPlayer)
+        cell.change(this.currentPlayer)
         // changement de joueur
         this.swapPlayers()
         // vérifie si la partie est gagnée
