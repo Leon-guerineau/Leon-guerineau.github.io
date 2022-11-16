@@ -125,10 +125,12 @@ class Morpion {
 
     nextTurn()
     {
-        if (!this.currentPlayer.automatic || this.ended) {
-            return
-        }
-        this.currentPlayer.playMorpion(this)
+        sleep(500).then( ()=> {
+            if (!this.currentPlayer.automatic || this.ended) {
+                return
+            }
+            this.currentPlayer.playMorpion(this)
+        })
     }
 
     /**
