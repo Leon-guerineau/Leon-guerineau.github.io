@@ -1,4 +1,5 @@
-class Cell {
+class Cell
+{
     constructor(row, column, HTMLCell) {
         this.row = row;             // Position dans la colone (y)
         this.column = column;       // Position dans la ligne (x)

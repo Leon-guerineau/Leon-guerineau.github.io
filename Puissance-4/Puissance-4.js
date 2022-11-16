@@ -18,14 +18,6 @@ class Puissance4
         this.modifyTableHeader(this.currentPlayer.name+' commence', 'lightgrey', this.currentPlayer.color);
     }
 
-    destruct()
-    {
-        this.gameBody.removeChild(this.HTMLTable);
-        for (const key in this) {
-            delete this[key];
-        }
-    }
-
     /**
      * Change le joueur du prochain tour
      */

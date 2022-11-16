@@ -4,7 +4,8 @@
  * @param {number} ms Le temps d'attente en ms
  * @returns {Promise<unknown>}
  */
-function sleep(ms) {
+function sleep(ms)
+{
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
@@ -35,11 +36,15 @@ function restartGame(game)
 {
     if (game instanceof Puissance4) {
         new Puissance4(activePlayers)
-        game.destruct()
     }
     else if (game instanceof Morpion) {
         new Morpion(activePlayers)
-        game.destruct()
+    }
+
+    // retire l'objet HTML du jeu et vide son objet JS
+    game.gameBody.removeChild(game.HTMLTable);
+    for (const key in game) {
+        delete game[key];
     }
 }
 

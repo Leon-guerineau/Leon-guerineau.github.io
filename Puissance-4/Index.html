@@ -1,8 +1,40 @@
-<div id="player-select">
-    <table>
-        <thead>
+<head>
+    <script src="Player.js"></script>
+    <script src="PlayerSelect.js"></script>
+    <script src="Cell.js"></script>
+    <script src="Puissance-4.js"></script>
+    <script src="Morpion.js"></script>
+    <script src="main.js"></script>
+
+    <style>
+        table, thead, td {
+            border: 1px solid;
+            user-select: none;
+            border-collapse: collapse;
+        }
+
+        td {
+            width: 50px;
+            height: 50px;
+        }
+
+        #player-select thead {
+            background-color: lightgray;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="player-select">
+        <table>
+            <thead>
             <tr>
-               <td colspan="6">Joueurs <button onclick="addActivePlayer()">Ajouter</button></td>
+                <td colspan="6">
+                    Joueurs
+                    <button onclick="addActivePlayer()">
+                        Ajouter
+                    </button>
+                </td>
             </tr>
             <tr>
                 <td>Nom Joueur</td>
@@ -12,39 +44,16 @@
                 <td>Score Puissance 4</td>
                 <td></td>
             </tr>
-        </thead>
-        <tbody>
-        <tr>
-        </tr>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+            <tr>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-<button id="start-games" onclick="startGames()">Commencer</button>
+    <button id="start-games" onclick="startGames()">Commencer</button>
 
-<div id="puissance-4"></div>
-<div id="morpion"></div>
-
-<script src="Player.js"></script>
-<script src="PlayerSelect.js"></script>
-<script src="Cell.js"></script>
-<script src="Puissance-4.js"></script>
-<script src="Morpion.js"></script>
-<script src="main.js"></script>
-
-<style>
-    table, thead, td {
-        border: 1px solid;
-        user-select: none;
-        border-collapse: collapse;
-    }
-
-    td {
-        width: 50px;
-        height: 50px;
-    }
-
-    #player-select thead {
-        background-color: lightgray;
-    }
-</style>
+    <div id="puissance-4"></div>
+    <div id="morpion"></div>
+</body>

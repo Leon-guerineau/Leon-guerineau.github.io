@@ -1,4 +1,5 @@
-class Morpion {
+class Morpion
+{
     constructor(players=[], numberOfRows=3, numberOfColumns=3, objectif=3)
     {
         this.numberOfRows = numberOfRows;
@@ -7,6 +8,7 @@ class Morpion {
         this.players = players;
         this.numberOfValidCells = 0;
 
+        this.gameBody = document.getElementById('morpion');
         this.currentPlayer = this.players.find(()=>true);
         this.HTMLTable = this.generateTable();
         this.HTMLHeader = this.generateHeader();
@@ -15,14 +17,6 @@ class Morpion {
         this.nextTurn()
 
         this.modifyTableHeader(this.currentPlayer.name+' commence', 'lightgrey', this.currentPlayer.color);
-    }
-
-    destruct()
-    {
-        document.getElementById('morpion').removeChild(this.HTMLTable);
-        for (const key in this) {
-            delete this[key];
-        }
     }
 
     /**
@@ -55,7 +49,7 @@ class Morpion {
         // génération de la table
         let table = document.createElement('table');
         // attribution de la table à la div du jeu sur la page principale
-        document.getElementById('morpion').appendChild(table);
+        this.gameBody.appendChild(table);
 
         return table
     }

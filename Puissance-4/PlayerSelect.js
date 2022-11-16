@@ -13,6 +13,7 @@ let activePlayers = []
  * Ajoute un joueur actif
  */
 //TODO : ajouter les 2 premiers joueurs de base
+// TODO : ajouter une sécurité pour ne pas ajouter de joueur si un jeu est en cours
 function addActivePlayer()
 {
     // sécurité pour éviter d'ajouter plus que le maximum de joueurs authorisés
@@ -35,6 +36,7 @@ function addActivePlayer()
  *
  * @param {Player} player
  */
+// TODO : ajouter une sécurité pour ne pas retirer de joueur si un jeu est en cours
 function removeActivePlayer(player)
 {
     //TODO : ajouter une sécurité et un message "pas moins de 2 joueurs"

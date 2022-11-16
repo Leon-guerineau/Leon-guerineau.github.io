@@ -14,7 +14,7 @@ class Player
     }
 
     /**
-     * recherche une cellule est joue
+     * Recherche une cellule et joue
      *
      * @param {Morpion|Puissance4} game
      */
@@ -23,6 +23,7 @@ class Player
         let validCells = game.cells.filter(cell => {
             return cell.valid;
         })
+        // TODO : cette sécurité est peut être inutile
         if (validCells.length < 1) {
             return
         }
