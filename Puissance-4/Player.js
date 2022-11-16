@@ -16,11 +16,11 @@ class Player {
         let validCells = game.cells.filter(cell => {
             return cell.valid;
         })
-        if (validCells === []) {
+        if (validCells.length < 1) {
             return
         }
         let randomValidCell = validCells[Math.floor(Math.random() * validCells.length)];
-        game.play(randomValidCell)
+        randomValidCell.HTMLCell.click();
     }
 
     /**

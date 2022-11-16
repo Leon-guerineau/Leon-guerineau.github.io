@@ -41,9 +41,6 @@ class Morpion {
         }
         // Modification du header
         this.modifyTableHeader('Au tour de : '+this.currentPlayer.name)
-        if (this.currentPlayer.automatic) {
-            currentPlayer.playMorpion(this)
-        }
     }
 
     /**
@@ -96,6 +93,7 @@ class Morpion {
                 cells.push(cell)
                 cell.HTMLCell.addEventListener('click', () => {
                     this.play(cell)
+                    this.nextTurn()
                 })
             }
         }
@@ -118,10 +116,14 @@ class Morpion {
         // changement de joueur
         this.swapPlayers()
         // vérifie si la partie est gagnée
-        this.checkWinHorizontal()
-        this.checkWinVertical()
-        this.checkWinDiagonalDown()
-        this.checkWinDiagonalUp()
+        this.checkWin()
+    }
+
+    nextTurn()
+    {
+        if (this.currentPlayer.automatic || !this.won) {
+            this.currentPlayer.playMorpion(this)
+        }
     }
 
     /**
@@ -145,6 +147,13 @@ class Morpion {
             })
             this.HTMLHeader.appendChild(restartButton)
         }
+    }
+
+    checkWin() {
+        this.checkWinHorizontal()
+        this.checkWinVertical()
+        this.checkWinDiagonalDown()
+        this.checkWinDiagonalUp()
     }
 
     /**
