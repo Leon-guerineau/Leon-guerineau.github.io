@@ -11,7 +11,7 @@ function restartGame(game)
 
 const player1 = new Player('joueur-1', 'yellow')
 const player2 = new Player('joueur-2', 'red')
-const bot1 = new Player('bot-1', 'green')
+const bot1 = new Player('bot-1', 'green', true)
 // const player3 = new Player('joueur-3', 'blue')
 
 new Puissance4([player1,player2])
