@@ -129,7 +129,7 @@ class Morpion {
             if (!this.currentPlayer.automatic || this.ended) {
                 return
             }
-            this.currentPlayer.playMorpion(this)
+            this.currentPlayer.autoPlay(this)
         })
     }
 

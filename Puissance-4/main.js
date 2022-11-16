@@ -1,7 +1,7 @@
 /**
  * Permet d'attendre avant d'effectuer une action
  *
- * @param ms Le temps d'attente en ms
+ * @param {number} ms Le temps d'attente en ms
  * @returns {Promise<unknown>}
  */
 function sleep(ms) {
@@ -14,12 +14,14 @@ function sleep(ms) {
 function startGames()
 {
     // sécurité pour démarrer les jeux uniquement si il y a des joueurs actifs
-    if (activePlayers.length <= 0) {
+    //TODO : ajouter un message "pas moins de 2 joueurs"
+    if (activePlayers.length < 2) {
         return
     }
-    // lance les jeux
+
     new Puissance4(activePlayers)
     new Morpion(activePlayers)
+
     // retire le boutton de lancement
     document.querySelector('#start-games').remove()
 }
@@ -27,15 +29,16 @@ function startGames()
 /**
  * Relance un jeu
  *
- * @param game Le jeu à relancer
+ * @param {Morpion|Puissance4} game Le jeu à relancer
  */
 function restartGame(game)
 {
     if (game instanceof Puissance4) {
-        new Puissance4(activePlayers, game.numberOfRows, game.numberOfColumns, game.piecesToAlign)
+        new Puissance4(activePlayers)
         game.destruct()
-    } else if (game instanceof Morpion) {
-        new Morpion(activePlayers, game.numberOfRows, game.numberOfColumns, game.size)
+    }
+    else if (game instanceof Morpion) {
+        new Morpion(activePlayers)
         game.destruct()
     }
 }

@@ -33,7 +33,7 @@ function addActivePlayer()
 /**
  * Retire un joueur actif
  *
- * @param player
+ * @param {Player} player
  */
 function removeActivePlayer(player)
 {
@@ -46,7 +46,7 @@ function removeActivePlayer(player)
 /**
  * Ajoute une ligne dans le menu des joueurs
  *
- * @param {Player}player Le joueur de la ligne
+ * @param {Player} player Le joueur de la ligne
  */
 function addRowInPlayerSelect(player) {
     // créer l'élément HTML de la ligne

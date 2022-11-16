@@ -8,6 +8,7 @@ class Puissance4
         this.players = players;
         this.numberOfValidCells = 0;
 
+        this.gameBody = document.getElementById('puissance-4')
         this.currentPlayer = this.players.find(()=>true);
         this.HTMLTable = this.generateTable();
         this.HTMLHeader = this.generateHeader();
@@ -19,7 +20,7 @@ class Puissance4
 
     destruct()
     {
-        document.getElementById('puissance-4').removeChild(this.HTMLTable);
+        this.gameBody.removeChild(this.HTMLTable);
         for (const key in this) {
             delete this[key];
         }
@@ -55,7 +56,7 @@ class Puissance4
         // génération de la table
         let table = document.createElement('table');
         // attribution de la table à la div du jeu sur la page principale
-        document.getElementById('puissance-4').appendChild(table);
+        this.gameBody.appendChild(table);
 
         return table
     }
