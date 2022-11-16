@@ -1,12 +1,14 @@
-class Player {
-    normal = 'normal'
-    hard = 'difficile'
-
-    constructor(name, color, automatic=false, level= this.normal) {
+class Player
+{
+    constructor(name, color, automatic=false) {
         this.name = name;
         this.color = color;
         this.automatic = automatic;
-        this.level = level
+
+        this.scoreMorpion = 0;
+        this.HTMLScoreMorpionCell = '';
+        this.scorePuissance4 = 0;
+        this.HTMLScorePuissance4Cell = '';
 
         this.piece = this.generatePiece
     }

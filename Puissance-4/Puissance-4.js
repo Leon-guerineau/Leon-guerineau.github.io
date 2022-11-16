@@ -6,14 +6,15 @@ class Puissance4
         this.numberOfColumns = numberOfColumns;
         this.piecesToAlign = piecesToAlign;
         this.players = players;
+        this.numberOfValidCells = 0;
 
         this.currentPlayer = this.players.find(()=>true);
         this.HTMLTable = this.generateTable();
         this.HTMLHeader = this.generateHeader();
         this.cells = this.generateCells();
-        this.won = false;
+        this.ended = false;
 
-        this.modifyTableHeader(this.currentPlayer.name+' commence');
+        this.modifyTableHeader(this.currentPlayer.name+' commence', 'lightgrey', this.currentPlayer.color);
     }
 
     destruct()
@@ -41,7 +42,7 @@ class Puissance4
             this.currentPlayer = this.players.find(()=>true)
         }
         // Modification du header
-        this.modifyTableHeader('Au tour de : '+this.currentPlayer.name)
+        this.modifyTableHeader('Au tour de : '+this.currentPlayer.name, 'lightgrey', this.currentPlayer.color)
     }
 
     /**
@@ -90,6 +91,7 @@ class Puissance4
             for(let column = 0; column<this.numberOfColumns; column++) {
                 // génération de la cellule
                 let tableCell = tableRow.insertCell()
+                this.numberOfValidCells++
                 tableCell.addEventListener('click', () => {
                     this.play(column)
                 })
@@ -113,19 +115,17 @@ class Puissance4
             return obj.column === column && obj.valid === true;
         })
         // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
-        if (validCellsInColumn.length <= 0 || this.won) {
+        if (validCellsInColumn.length <= 0 || this.ended) {
             return;
         }
         // trouve la cellule la plus basse et lui attribu le joueur actuel
         let lowestCellInColumn = validCellsInColumn[validCellsInColumn.length-1]
         lowestCellInColumn.change(this.currentPlayer)
+        this.numberOfValidCells--
         // changement de joueur
         this.swapPlayers()
         // vérifie si la partie est gagnée
-        this.checkWinHorizontal()
-        this.checkWinVertical()
-        this.checkWinDiagonalDown()
-        this.checkWinDiagonalUp()
+        this.checkWin()
     }
 
     /**
@@ -133,12 +133,13 @@ class Puissance4
      *
      * @param {string}message Le message à afficher
      * @param {string}backgroundColor La couleur du fond
+     * @param {string}fontColor La couleur du message
      * @param {boolean}hasButton Est-ce qu'on affiche le boutton pour redémarrer la partie
      */
-    modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false)
+    modifyTableHeader(message, backgroundColor = 'lightgrey', fontColor = '', hasButton = false)
     {
         // modification du message et du fond du header
-        this.HTMLHeader.innerHTML = message
+        this.HTMLHeader.innerHTML = '<span style="color: '+fontColor+'">'+message+'</span>'
         this.HTMLHeader.style.backgroundColor = backgroundColor
         // affichage du boutton reset si demandé
         if (hasButton) {
@@ -148,6 +149,16 @@ class Puissance4
                 restartGame(this)
             })
             this.HTMLHeader.appendChild(restartButton)
+        }
+    }
+
+    checkWin() {
+        this.checkWinHorizontal()
+        this.checkWinVertical()
+        this.checkWinDiagonalDown()
+        this.checkWinDiagonalUp()
+        if (this.numberOfValidCells <= 0) {
+            this.lose()
         }
     }
 
@@ -231,8 +242,17 @@ class Puissance4
         })
     }
 
-    win(player) {
-        this.won = true;
-        this.modifyTableHeader(player.name+' won', 'green', true)
+    win(player)
+    {
+        this.ended = true;
+        player.scorePuissance4++
+        player.HTMLScorePuissance4Cell.innerHTML = player.scorePuissance4
+        this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
+    }
+
+    lose()
+    {
+        this.ended = true;
+        this.modifyTableHeader('Personne n\'as a gagner', 'lightred', '', true)
     }
 }

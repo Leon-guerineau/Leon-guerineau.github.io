@@ -1,3 +1,27 @@
+<div id="player-select">
+    <table>
+        <thead>
+            <tr>
+               <td colspan="6">Joueurs <button onclick="addActivePlayer()">Ajouter</button></td>
+            </tr>
+            <tr>
+                <td>Nom Joueur</td>
+                <td>Couleur Joueur</td>
+                <td>Joueur Auto</td>
+                <td>Score Morpion</td>
+                <td>Score Puissance 4</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<button id="start-games" onclick="startGames()">Commencer</button>
+
 <div id="puissance-4"></div>
 <div id="morpion"></div>
 
@@ -13,8 +37,13 @@
         user-select: none;
         border-collapse: collapse;
     }
+
     td {
         width: 50px;
         height: 50px;
+    }
+
+    #player-select thead {
+        background-color: lightgray;
     }
 </style>

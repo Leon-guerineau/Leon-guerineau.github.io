@@ -5,14 +5,16 @@ class Morpion {
         this.numberOfColumns = numberOfColumns;
         this.objectif = objectif;
         this.players = players;
+        this.numberOfValidCells = 0;
 
         this.currentPlayer = this.players.find(()=>true);
         this.HTMLTable = this.generateTable();
         this.HTMLHeader = this.generateHeader();
         this.cells = this.generateCells();
-        this.won = false;
+        this.ended = false;
+        this.nextTurn()
 
-        this.modifyTableHeader(this.currentPlayer.name+' commence');
+        this.modifyTableHeader(this.currentPlayer.name+' commence', 'lightgrey', this.currentPlayer.color);
     }
 
     destruct()
@@ -40,7 +42,7 @@ class Morpion {
             this.currentPlayer = this.players.find(()=>true)
         }
         // Modification du header
-        this.modifyTableHeader('Au tour de : '+this.currentPlayer.name)
+        this.modifyTableHeader('Au tour de : '+this.currentPlayer.name, 'lightgrey', this.currentPlayer.color)
     }
 
     /**
@@ -89,6 +91,7 @@ class Morpion {
             for(let column = 0; column<this.numberOfColumns; column++) {
                 // génération de la cellule
                 let cell = new Cell(row, column, tableRow.insertCell())
+                this.numberOfValidCells++
                 // Attribution d'un nouvel objet Cellule dans la liste des cellules
                 cells.push(cell)
                 cell.HTMLCell.addEventListener('click', () => {
@@ -109,10 +112,11 @@ class Morpion {
     play(cell)
     {
         // ne fait rien si il n'y a aucune case valide ou si la partie est gagnée
-        if (cell.valid === false || this.won) {
+        if (cell.valid === false || this.ended) {
             return;
         }
         cell.change(this.currentPlayer)
+        this.numberOfValidCells--
         // changement de joueur
         this.swapPlayers()
         // vérifie si la partie est gagnée
@@ -121,7 +125,7 @@ class Morpion {
 
     nextTurn()
     {
-        if (!this.currentPlayer.automatic || this.won) {
+        if (!this.currentPlayer.automatic || this.ended) {
             return
         }
         this.currentPlayer.playMorpion(this)
@@ -132,12 +136,13 @@ class Morpion {
      *
      * @param {string}message Le message à afficher
      * @param {string}backgroundColor La couleur du fond
+     * @param {string}fontColor La couleur du message
      * @param {boolean}hasButton Est-ce qu'on affiche le boutton pour redémarrer la partie
      */
-    modifyTableHeader(message, backgroundColor = 'lightgrey', hasButton = false)
+    modifyTableHeader(message, backgroundColor = 'lightgrey', fontColor = '', hasButton = false)
     {
         // modification du message et du fond du header
-        this.HTMLHeader.innerHTML = message
+        this.HTMLHeader.innerHTML = '<span style="color: '+fontColor+'">'+message+'</span>'
         this.HTMLHeader.style.backgroundColor = backgroundColor
         // affichage du boutton reset si demandé
         if (hasButton) {
@@ -155,6 +160,9 @@ class Morpion {
         this.checkWinVertical()
         this.checkWinDiagonalDown()
         this.checkWinDiagonalUp()
+        if (this.numberOfValidCells <= 0) {
+            this.lose()
+        }
     }
 
     /**
@@ -237,8 +245,17 @@ class Morpion {
         })
     }
 
-    win(player) {
-        this.won = true;
-        this.modifyTableHeader(player.name+' a gagner', 'green', true)
+    win(player)
+    {
+        this.ended = true;
+        player.scoreMorpion++
+        player.HTMLScoreMorpionCell.innerHTML = player.scoreMorpion
+        this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
+    }
+
+    lose()
+    {
+        this.ended = true;
+        this.modifyTableHeader('Personne n\'as a gagner', 'lightred', '', true)
     }
 }
