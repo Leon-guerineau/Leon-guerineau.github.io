@@ -1,9 +1,14 @@
 class Cell
 {
-    constructor(row, column, HTMLCell) {
+    constructor(
+        row,
+        column,
+        HTMLCell,
+    ) {
         this.row = row;             // Position dans la colone (y)
         this.column = column;       // Position dans la ligne (x)
         this.HTMLCell = HTMLCell;   // Élément HTML relié à l'objet
+
         this.player = null;         // Joueur attribué à la case
         this.valid = true;          // Détermine si la case est valide pour poser un pion
     }

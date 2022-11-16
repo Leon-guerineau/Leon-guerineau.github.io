@@ -1,6 +1,10 @@
 class Player
 {
-    constructor(name, color, automatic=false) {
+    constructor(
+        name,
+        color,
+        automatic=false,
+    ) {
         this.name = name;                   // Le nom du joueur
         this.color = color;                 // La couleur du joueur
         this.automatic = automatic;         // Est-ce que le joueur est automatique

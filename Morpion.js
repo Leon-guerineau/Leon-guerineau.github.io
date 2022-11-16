@@ -1,7 +1,11 @@
 class Morpion
 {
-    constructor(players=[], numberOfRows=3, numberOfColumns=3, objectif=3)
-    {
+    constructor(
+        players=[],
+        numberOfRows=3,
+        numberOfColumns=3,
+        objectif=3
+    ) {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         this.objectif = objectif;
