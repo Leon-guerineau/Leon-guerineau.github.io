@@ -1,8 +1,26 @@
 class Player {
-    constructor(name, color) {
+    normal = 'normal'
+    hard = 'difficile'
+
+    constructor(name, color, automatic=false, level= this.normal) {
         this.name = name;
         this.color = color;
+        this.automatic = automatic;
+        this.level = level
+
         this.piece = this.generatePiece
+    }
+
+    playMorpion(game)
+    {
+        let validCells = game.cells.filter(cell => {
+            return cell.valid;
+        })
+        if (validCells === []) {
+            return
+        }
+        let randomValidCell = validCells[Math.floor(Math.random() * validCells.length)];
+        game.play(randomValidCell)
     }
 
     /**

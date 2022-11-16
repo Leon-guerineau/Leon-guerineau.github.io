@@ -11,9 +11,11 @@ function restartGame(game)
 
 const player1 = new Player('joueur-1', 'yellow')
 const player2 = new Player('joueur-2', 'red')
+const bot1 = new Player('bot-1', 'green')
 // const player3 = new Player('joueur-3', 'blue')
 
 new Puissance4([player1,player2])
 // const game3 = new Puiss4([player1,player2,player3],10,12,4,)
 new Morpion([player1,player2])
+new Morpion([player1,bot1])
 

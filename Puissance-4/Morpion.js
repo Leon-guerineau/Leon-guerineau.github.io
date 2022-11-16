@@ -41,6 +41,9 @@ class Morpion {
         }
         // Modification du header
         this.modifyTableHeader('Au tour de : '+this.currentPlayer.name)
+        if (this.currentPlayer.automatic) {
+            currentPlayer.playMorpion(this)
+        }
     }
 
     /**
