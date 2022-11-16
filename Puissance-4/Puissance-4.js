@@ -1,6 +1,6 @@
-class Puiss4
+class Puissance4
 {
-    constructor(numberOfRows, numberOfColumns, piecesToAlign, players=[])
+    constructor(players=[], numberOfRows=6, numberOfColumns=7, piecesToAlign=4)
     {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;

@@ -1,8 +1,9 @@
 class Morpion {
-    constructor(players=[], numberOfRows=3, numberOfColumns=3)
+    constructor(players=[], numberOfRows=3, numberOfColumns=3, objectif=3)
     {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
+        this.objectif = objectif;
         this.players = players;
 
         this.currentPlayer = this.players.find(()=>true);
@@ -16,7 +17,7 @@ class Morpion {
 
     destruct()
     {
-        document.getElementById('puissance-4').removeChild(this.HTMLTable);
+        document.getElementById('morpion').removeChild(this.HTMLTable);
         for (const key in this) {
             delete this[key];
         }
@@ -212,7 +213,7 @@ class Morpion {
                     counter = 1;
                     winCells = [cell]
                 }
-                if(counter === this.piecesToAlign) {
+                if(counter === this.objectif) {
                     winCells.forEach((cell) => {
                         cell.HTMLCell.style.backgroundColor = 'lightgreen'
                     })
@@ -225,6 +226,6 @@ class Morpion {
 
     win(player) {
         this.won = true;
-        this.modifyTableHeader(player.name+' won', 'green', true)
+        this.modifyTableHeader(player.name+' a gagner', 'green', true)
     }
 }
