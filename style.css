@@ -1,10 +1,10 @@
 body {
-    background-image: url("/assets/pictures/0434cdb812e67d30f5_windows_xp_bliss-wide.jpg");
-    height: 100%;
-    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-image: url("./background.jpg");
+    background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: 100% 100%;
+    background-size: cover;
 }
 
 table, thead, td {
@@ -14,15 +14,32 @@ table, thead, td {
 }
 
 tbody td {
-    width: 50px;
-    height: 50px;
     background-color: white;
 }
 
+td {
+    width: 50px;
+    height: 50px;
+}
+
 #player-select {
-    width: 100%;
+    flex: 100%;
+    display: flex;
+    justify-content: center;
+    height: fit-content;
 }
 
 #player-select thead {
     background-color: lightgray;
+}
+#content {
+    width: 75%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+#games {
+    flex: 100%;
+    display: flex;
+    justify-content: center;
 }

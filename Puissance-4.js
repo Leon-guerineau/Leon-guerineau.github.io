@@ -1,4 +1,4 @@
-class Puissance4 extends Game
+class Puissance4 extends Morpion
 {
     constructor(
         players=[],
@@ -39,15 +39,5 @@ class Puissance4 extends Game
         this.swapPlayers()
         // vérifie si la partie est gagnée
         this.checkWin()
-    }
-
-    //saute pas
-    win(player)
-    {
-        this.ended = true;
-        player.scorePuissance4++
-        player.HTMLScorePuissance4Cell.innerHTML = player.scorePuissance4
-        this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
-        activeGame = null;
     }
 }

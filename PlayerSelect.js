@@ -14,6 +14,12 @@ let activePlayers = []
  */
 function addActivePlayer()
 {
+    if (activeGame instanceof Morpion) {
+        return alert('Veuillez finir le morpion')
+    }
+    if (activeGame instanceof Puissance4) {
+        return alert('Veuillez finir le puissance 4')
+    }
     // sécurité pour éviter d'ajouter plus que le maximum de joueurs authorisés
     if (inactivePlayers.length <= 0) {
         return alert('Il ne peut pas y avoir plus de 4 joueurs')

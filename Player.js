@@ -32,7 +32,8 @@ class Player
             return
         }
         let randomValidCell = validCells[Math.floor(Math.random() * validCells.length)];
-        randomValidCell.HTMLCell.click();
+        game.play(randomValidCell)
+        game.nextTurn()
     }
 
     /**
