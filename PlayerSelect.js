@@ -1,6 +1,6 @@
 /** @type {Player[]} Liste des joueurs inactifs */
 let inactivePlayers = [
-    new Player('joueur-1', 'yellow', false),
+    new Player('joueur-1', 'gold', false),
     new Player('joueur-2', 'red', false),
     new Player('joueur-3', 'blue', false),
     new Player('joueur-4', 'green', false),
@@ -68,6 +68,7 @@ function addRowInPlayerSelect(player)
     automaticSwitch.type = 'checkbox';
     automaticSwitch.checked = player.automatic
     automaticSwitch.onchange = () => {
+        activeGame.nextTurn()
         player.automatic = automaticSwitch.checked;
     }
     playerListRow.insertCell().appendChild(automaticSwitch);

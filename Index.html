@@ -1,5 +1,6 @@
 <head>
     <title>TP-UTC-503</title>
+
     <script src="Player.js"></script>
     <script src="PlayerSelect.js"></script>
     <script src="Cell.js"></script>
@@ -9,10 +10,19 @@
     <script src="main.js"></script>
 
     <style>
+        body {
+            display: flex;
+            justify-content: center;
+        }
+
         table, thead, td {
             border: 1px solid;
             user-select: none;
             border-collapse: collapse;
+        }
+
+        tbody td {
+            background-color: white;
         }
 
         td {
@@ -21,48 +31,82 @@
         }
 
         #player-select {
-            width: 100%;
+            flex: 100%;
+            display: flex;
+            justify-content: center;
+            height: fit-content;
         }
 
         #player-select thead {
             background-color: lightgray;
         }
+        #content {
+            width: 75%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        #games {
+            flex: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #background-video {
+            height: 100vh;
+            width: 100vw;
+            object-fit: cover;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            z-index: -1;
+            volume: soft;
+        }
     </style>
 </head>
 
+
 <body>
-    <div id="player-select">
-        <table>
-            <thead>
-            <tr>
-                <td colspan="6">
-                    Joueurs
-                    <button onclick="addActivePlayer()">
-                        Ajouter
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>Nom Joueur</td>
-                <td>Couleur Joueur</td>
-                <td>Joueur Auto</td>
-                <td>Score Morpion</td>
-                <td>Score Puissance 4</td>
-                <td></td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="games">
-        <div id="start-games">
-            <button id="start-Morpion" onclick="startGames()">Commencer Morpion</button>
-            <button id="start-Puissance-4" onclick="startPuissance4()">Commencer Puissance 4</button>
+    <video id="background-video" autoplay loop poster="./assets/pictures/remi-mouillet-marais-shrek-pixel-art-1.jpg">
+        <source src="./assets/videos/SATISIR%20-%20666%20-%20RISITAS.mp4" type="video/mp4">
+    </video>
+    <div id="content">
+
+        <div id="player-select">
+            <table>
+                <thead>
+                <tr>
+                    <td colspan="6">
+                        Joueurs
+                        <button onclick="addActivePlayer()">
+                            Ajouter
+                        </button>
+                        (min 2, max 4)
+                    </td>
+                </tr>
+                <tr>
+                    <td>Nom Joueur</td>
+                    <td>Couleur Joueur</td>
+                    <td>Joueur Auto</td>
+                    <td>Score Morpion</td>
+                    <td>Score Puissance 4</td>
+                    <td></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div id="Puissance4"></div>
-        <div id="Morpion"></div>
+        <div id="games">
+            <div id="start-games">
+                <button id="start-Morpion" onclick="startGames()">Commencer Morpion</button>
+                <button id="start-Puissance-4" onclick="startPuissance4()">Commencer Puissance 4</button>
+            </div>
+            <div id="Puissance4"></div>
+            <div id="Morpion"></div>
+        </div>
     </div>
 </body>

@@ -36,6 +36,9 @@ class Morpion extends Game
 
     win(player)
     {
+        let winSound = new Audio('/assets/sounds/Win.mp3')
+        winSound.volume = 0.1
+        winSound.play();
         this.ended = true;
         player.scoreMorpion++
         player.HTMLScoreMorpionCell.innerHTML = player.scoreMorpion
