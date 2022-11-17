@@ -13,6 +13,10 @@
         body {
             display: flex;
             justify-content: center;
+            background-image: url("./background.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
         table, thead, td {
@@ -51,26 +55,11 @@
             display: flex;
             justify-content: center;
         }
-        #background-video {
-            height: 100vh;
-            width: 100vw;
-            object-fit: cover;
-            position: fixed;
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            z-index: -1;
-            volume: soft;
-        }
     </style>
 </head>
 
 
 <body>
-    <video id="background-video" autoplay loop poster="./assets/pictures/remi-mouillet-marais-shrek-pixel-art-1.jpg">
-        <source src="./assets/videos/SATISIR%20-%20666%20-%20RISITAS.mp4" type="video/mp4">
-    </video>
     <div id="content">
 
         <div id="player-select">

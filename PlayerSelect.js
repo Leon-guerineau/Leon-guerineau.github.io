@@ -68,7 +68,9 @@ function addRowInPlayerSelect(player)
     automaticSwitch.type = 'checkbox';
     automaticSwitch.checked = player.automatic
     automaticSwitch.onchange = () => {
-        activeGame.nextTurn()
+        if (activeGame != null) {
+            activeGame.nextTurn()
+        }
         player.automatic = automaticSwitch.checked;
     }
     playerListRow.insertCell().appendChild(automaticSwitch);
