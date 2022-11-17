@@ -42,6 +42,7 @@ class Morpion extends Game
         this.ended = true;
         player.scoreMorpion++
         player.HTMLScoreMorpionCell.innerHTML = player.scoreMorpion
+        console.log('win')
         this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
         activeGame = null;
     }
