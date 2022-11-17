@@ -20,6 +20,10 @@
             height: 50px;
         }
 
+        #player-select {
+            width: 100%;
+        }
+
         #player-select thead {
             background-color: lightgray;
         }
@@ -53,9 +57,12 @@
             </tbody>
         </table>
     </div>
-
-    <button id="start-games" onclick="startGames()">Commencer</button>
-
-    <div id="Puissance4"></div>
-    <div id="Morpion"></div>
+    <div id="games">
+        <div id="start-games">
+            <button id="start-Morpion" onclick="startGames()">Commencer Morpion</button>
+            <button id="start-Puissance-4" onclick="startPuissance4()">Commencer Puissance 4</button>
+        </div>
+        <div id="Puissance4"></div>
+        <div id="Morpion"></div>
+    </div>
 </body>

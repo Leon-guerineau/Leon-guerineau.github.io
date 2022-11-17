@@ -40,5 +40,6 @@ class Morpion extends Game
         player.scoreMorpion++
         player.HTMLScoreMorpionCell.innerHTML = player.scoreMorpion
         this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
+        activeGame = null;
     }
 }

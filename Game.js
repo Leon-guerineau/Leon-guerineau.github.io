@@ -65,12 +65,17 @@ class Game
      */
     generateHeader()
     {
+        let header = this.HTMLTable.createTHead()
+        let titreHeader = header.insertRow().insertCell()
+        titreHeader.colSpan = this.numberOfColumns
+        titreHeader.innerHTML = this.constructor.name
+        titreHeader.style.backgroundColor = 'lightgray'
         // génération du header de la table
-        let tableHeader = this.HTMLTable.createTHead().insertRow().insertCell()
+        let headerInfo = header.insertRow().insertCell()
         // colspan représente la largeur de la cellule en nombre de colones
-        tableHeader.colSpan = this.numberOfColumns
+        headerInfo.colSpan = this.numberOfColumns
 
-        return tableHeader;
+        return headerInfo;
     }
 
     /**
@@ -101,8 +106,6 @@ class Game
 
         return cells
     }
-
-
 
     nextTurn()
     {
@@ -135,6 +138,12 @@ class Game
                 restartGame(this)
             })
             this.HTMLHeader.appendChild(restartButton)
+            let switchButton = document.createElement('button')
+            switchButton.innerHTML = 'changer de jeu'
+            switchButton.addEventListener('click', () => {
+                switchGame(this)
+            })
+            this.HTMLHeader.appendChild(switchButton)
         }
     }
 
@@ -232,5 +241,6 @@ class Game
     {
         this.ended = true;
         this.modifyTableHeader('Personne n\'as a gagner', 'indianred', '', true)
+        activeGame = null;
     }
 }

@@ -48,5 +48,6 @@ class Puissance4 extends Game
         player.scorePuissance4++
         player.HTMLScorePuissance4Cell.innerHTML = player.scorePuissance4
         this.modifyTableHeader(player.name+' a gagner', 'lightgreen', '', true)
+        activeGame = null;
     }
 }
